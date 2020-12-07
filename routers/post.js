@@ -14,7 +14,7 @@ router.get("/", async (req, res, next) => {
     const response = await Post.findAll({
       include: [
         { model: Comment, include: [{ model: Answer }] },
-        { model: User, attributes: { exclude: ["password"] } },
+        { model: User, as: "author", attributes: { exclude: ["password"] } },
       ],
     });
     res.status(200).json(response);

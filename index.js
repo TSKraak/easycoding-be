@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser);
 
 app.get("/", (req, res) => {
-  res.send("Hi from express, this is the backend of Easy Coding!!!");
+  res.send("Hi from Express, this is the backend of Easy Coding!!!");
 });
 
 app.listen(PORT, () => {

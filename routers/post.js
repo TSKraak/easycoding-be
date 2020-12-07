@@ -15,5 +15,23 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/", authMiddleware, async (req, res, next) => {
+  const { title, content } = req.body;
+  if (!title || !content) {
+    return res
+      .status(400)
+      .send({ message: "Please provide a title and content" });
+  }
+  try {
+    const newPost = await Post.create({
+      title,
+      content,
+      userId: req.user.dataValues["id"],
+    });
+    res.status(200).send(newPost);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

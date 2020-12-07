@@ -4,6 +4,7 @@ const cors = require("cors");
 const { PORT } = require("./config/constants");
 const postRouter = require("./routers/post");
 const requestRouter = require("./routers/request");
+const commentRouter = require("./routers/comment");
 const app = express();
 
 app.use(cors());
@@ -16,6 +17,8 @@ app.get("/", (req, res) => {
 app.use("/post", postRouter);
 
 app.use("/request", requestRouter);
+
+app.use("/comment", commentRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);

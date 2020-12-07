@@ -13,7 +13,24 @@ router.get("/", async (req, res, next) => {
   try {
     const response = await Request.findAll({
       include: [
-        { model: Comment, include: [{ model: Answer }] },
+        {
+          model: Comment,
+          include: [
+            {
+              model: Answer,
+              include: [
+                {
+                  model: User,
+                  attributes: { exclude: ["password"] },
+                },
+              ],
+            },
+            {
+              model: User,
+              attributes: { exclude: ["password"] },
+            },
+          ],
+        },
         { model: User, attributes: { exclude: ["password"] } },
       ],
     });

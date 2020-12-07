@@ -7,8 +7,8 @@ module.exports = {
       [
         {
           name: "Thomas",
-          email: "thomas@thomas.com",
-          password: "thomas",
+          email: "t@k.com",
+          password: "banana",
           isAdmin: true,
           accountBLocked: false,
           picture:

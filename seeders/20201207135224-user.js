@@ -1,4 +1,6 @@
 "use strict";
+const bcrypt = require("bcrypt");
+const { SALT_ROUNDS } = require("../config/constants");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,7 +10,7 @@ module.exports = {
         {
           name: "Thomas",
           email: "t@k.com",
-          password: "banana",
+          password: bcrypt.hashSync("banana", SALT_ROUNDS),
           isAdmin: true,
           accountBlocked: false,
           picture:
@@ -18,8 +20,8 @@ module.exports = {
         },
         {
           name: "ariqyandri",
-          email: "ariq@aric.com",
-          password: "ariq",
+          email: "ariq@a.com",
+          password: bcrypt.hashSync("ariq", SALT_ROUNDS),
           isAdmin: true,
           accountBlocked: false,
           picture: "https://m.media-amazon.com/images/I/41Jo4EUYcqL._AC_.jpg",
@@ -29,7 +31,7 @@ module.exports = {
         {
           name: "Jannis",
           email: "jannis@jannis.com",
-          password: "jannis",
+          password: bcrypt.hashSync("jannis", SALT_ROUNDS),
           isAdmin: true,
           accountBlocked: false,
           picture:

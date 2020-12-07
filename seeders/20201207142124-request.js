@@ -10,7 +10,7 @@ module.exports = {
           content: "How to make my app even MORE awesome?",
           userId: 1,
           createdAt: new Date(),
-          updateAt: new Date(),
+          updatedAt: new Date(),
         },
       ],
       {}

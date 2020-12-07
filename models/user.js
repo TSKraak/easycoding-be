@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       user.hasMany(models.request);
       user.hasMany(models.comment);
+      user.hasMany(models.answer);
       user.belongsToMany(models.post, {
         through: "favourites",
         foreignKey: "userId",

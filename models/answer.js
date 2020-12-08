@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   answer.init(
     {
-      content: { type: DataTypes.STRING, allowNull: false },
+      content: { type: DataTypes.TEXT, allowNull: false },
       userId: { type: DataTypes.INTEGER, allowNull: false },
       commentId: { type: DataTypes.INTEGER, allowNull: false },
     },

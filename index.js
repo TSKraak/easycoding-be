@@ -6,7 +6,7 @@ const authRouter = require("./routers/auth");
 const postRouter = require("./routers/post");
 const requestRouter = require("./routers/request");
 const commentRouter = require("./routers/comment");
-const pictureRouter = require("./routers/comment");
+const pictureRouter = require("./routers/picture");
 const app = express();
 
 app.use(cors());

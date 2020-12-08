@@ -55,6 +55,12 @@ router.post("/", authMiddleware, async (req, res, next) => {
       content,
       userId: req.user.dataValues["id"],
     });
+    const assignedPictures = await Picture.update(
+      {
+        postId: newPost.id,
+      },
+      { where: { id: [...req.body.picturesIds] } }
+    );
     const returnPost = await Post.findByPk(newPost.id, {
       include: [
         { model: Comment, include: [{ model: Answer }] },

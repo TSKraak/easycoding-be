@@ -5,10 +5,9 @@ const authMiddleware = require("../auth/middleware");
 const router = new Router();
 
 router.post("/", authMiddleware, async (req, res, next) => {
-  const { userId } = req.body;
+  const admin = req.user.dataValues.isAdmin;
   try {
-    const user = findByPk(userId);
-    if (user.isAdmin === false) {
+    if (admin === false) {
       return res
         .status(403)
         .send({ message: "You are not authorized to see all users" });

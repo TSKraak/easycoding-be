@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       post.hasMany(models.comment);
+      post.hasMany(models.picture);
       post.belongsToMany(models.user, {
         through: "favourites",
         foreignKey: "postId",

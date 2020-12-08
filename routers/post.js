@@ -5,6 +5,7 @@ const {
   comment: Comment,
   answer: Answer,
   user: User,
+  picture: Picture,
 } = require("../models");
 
 const router = new Router();
@@ -32,6 +33,7 @@ router.get("/", async (req, res, next) => {
           ],
         },
         { model: User, as: "author", attributes: { exclude: ["password"] } },
+        { model: Picture },
       ],
     });
     res.status(200).json(response);
@@ -53,7 +55,14 @@ router.post("/", authMiddleware, async (req, res, next) => {
       content,
       userId: req.user.dataValues["id"],
     });
-    res.status(200).send(newPost);
+    const returnPost = await Post.findByPk(newPost.id, {
+      include: [
+        { model: Comment, include: [{ model: Answer }] },
+        { model: User, as: "author", attributes: { exclude: ["password"] } },
+        { model: Picture },
+      ],
+    });
+    res.status(200).send(returnPost);
   } catch (error) {
     next(error);
   }

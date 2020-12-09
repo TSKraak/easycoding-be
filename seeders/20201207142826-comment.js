@@ -13,6 +13,14 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          content: "This is your answer",
+          userId: 1,
+          postId: null,
+          requestId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

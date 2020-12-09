@@ -9,6 +9,7 @@ const commentRouter = require("./routers/comment");
 const pictureRouter = require("./routers/picture");
 const userRouter = require("./routers/user");
 const answerRouter = require("./routers/answer");
+const favouriteRouter = require("./routers/favourite");
 const app = express();
 
 app.use(cors());
@@ -31,6 +32,8 @@ app.use("/answer", answerRouter);
 app.use("/picture", pictureRouter);
 
 app.use("/users", userRouter);
+
+app.use("/favourite", favouriteRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);

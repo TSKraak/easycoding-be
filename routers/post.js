@@ -124,7 +124,8 @@ router.delete("/:postId", authMiddleware, async (req, res, next) => {
   }
 });
 
-router.delete("/:postId", authMiddleware, async (req, res, next) => {
+router.delete("/admin/:postId", authMiddleware, async (req, res, next) => {
+  const admin = req.user.dataValues.isAdmin;
   if (admin === false) {
     return res
       .status(403)

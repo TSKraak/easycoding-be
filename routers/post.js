@@ -74,4 +74,38 @@ router.post("/", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.put("/:postId", authMiddleware, async (req, res, next) => {
+  const { title, content } = req.body;
+  if (!title || !content) {
+    return res
+      .status(400)
+      .send({ message: "Please provide a title and content" });
+  }
+  try {
+    const updatedPost = await Post.update(
+      {
+        title,
+        content,
+      },
+      { where: { id: parseInt(req.params.postId) } }
+    );
+    const assignedPictures = await Picture.update(
+      {
+        postId: newPost.id,
+      },
+      { where: { id: [...req.body.picturesIds] } }
+    );
+    const returnPost = await updatedPost.findByPk(newPost.id, {
+      include: [
+        { model: Comment, include: [{ model: Answer }] },
+        { model: User, as: "author", attributes: { exclude: ["password"] } },
+        { model: Picture },
+      ],
+    });
+    res.status(200).send(returnPost);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

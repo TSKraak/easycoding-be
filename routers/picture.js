@@ -3,6 +3,17 @@ const authMiddleware = require("../auth/middleware");
 const Picture = require("../models/").picture;
 const router = new Router();
 
+router.get("/:postId", authMiddleware, async (req, res, next) => {
+  try {
+    const pictures = await Picture.findAll({
+      where: { postId: parseInt(req.params.postId) },
+    });
+    res.status(200).send(pictures);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/", authMiddleware, async (req, res, next) => {
   try {
     const newPicture = await Picture.create({

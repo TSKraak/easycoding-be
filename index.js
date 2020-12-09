@@ -8,6 +8,7 @@ const requestRouter = require("./routers/request");
 const commentRouter = require("./routers/comment");
 const pictureRouter = require("./routers/picture");
 const userRouter = require("./routers/user");
+const answerRouter = require("./routers/answer");
 const app = express();
 
 app.use(cors());
@@ -24,6 +25,8 @@ app.use("/post", postRouter);
 app.use("/request", requestRouter);
 
 app.use("/comment", commentRouter);
+
+app.use("/answer", answerRouter);
 
 app.use("/picture", pictureRouter);
 

@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const authMiddleware = require("../auth/middleware");
-const { comment: Comment, user: User, answer: Answer } = require("../models");
+const { user: User, answer: Answer } = require("../models");
 
 const router = new Router();
 
@@ -13,18 +13,15 @@ router.post("/", authMiddleware, async (req, res, next) => {
     return res.status(400).send({ message: "Post does not exist" });
   }
   try {
-    const newComment = await Comment.create({
+    const newAnswer = await Answer.create({
       content,
       postId,
       userId: req.user.dataValues["id"],
     });
-    const returnComment = await Comment.findByPk(newComment.id, {
-      include: [
-        { model: User, attributes: { exclude: ["password"] } },
-        { model: Answer },
-      ],
+    const returnAnswer = await Answer.findByPk(newAnswer.id, {
+      include: [{ model: User, attributes: { exclude: ["password"] } }],
     });
-    res.status(200).send(returnComment);
+    res.status(200).send(returnAnswer);
   } catch (error) {
     next(error);
   }

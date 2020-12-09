@@ -22,22 +22,17 @@ router.post("/", authMiddleware, async (req, res, next) => {
   }
 });
 
-router.put("/", authMiddleware, async (req, res, next) => {
-  const { name, email, picture } = req.body;
+router.put("/profile", authMiddleware, async (req, res, next) => {
   try {
-    const updatedUser = await User.update(
-      {
-        name,
-        email,
-        picture,
-      },
-      { where: { id: req.user.dataValues["id"], return: true } }
-    );
+    const user = await User.findByPk(req.user.dataValues["id"]);
+    const updatedUser = await user.update(req.body, {
+      return: true,
+    });
     const returnUser = await User.findOne({
-      where: updatedUser,
+      where: { id: req.user.dataValues["id"] },
       attributes: { exclude: ["password"] },
     });
-    res.status(200).json({ returnUser });
+    res.status(200).json(returnUser);
   } catch (e) {
     next(e);
   }

@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       content: { type: DataTypes.TEXT, allowNull: false },
       userId: { type: DataTypes.INTEGER, allowNull: false },
-      postId: { type: DataTypes.INTEGER, allowNull: false },
+      postId: { type: DataTypes.INTEGER, allowNull: true },
+      requestId: { type: DataTypes.INTEGER, allowNull: true },
     },
     {
       sequelize,

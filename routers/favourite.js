@@ -95,4 +95,20 @@ router.post("/", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.delete("/:postId", authMiddleware, async (req, res, next) => {
+  try {
+    await Favourite.destroy({
+      where: {
+        postId: parseInt(req.params.postId),
+        userId: req.user.dataValues["id"],
+      },
+    });
+    res
+      .status(200)
+      .send({ message: `Unfavourited post with id:${req.params.postId}` });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

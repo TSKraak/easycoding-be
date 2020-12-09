@@ -18,7 +18,7 @@ router.post("/", authMiddleware, async (req, res, next) => {
       postId,
       userId: req.user.dataValues["id"],
     });
-    const returnAnswer = await Answer.findByPk(newComment.id, {
+    const returnAnswer = await Answer.findByPk(newAnswer.id, {
       include: [{ model: User, attributes: { exclude: ["password"] } }],
     });
     res.status(200).send(returnAnswer);

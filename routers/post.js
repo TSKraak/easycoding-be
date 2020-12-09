@@ -108,4 +108,40 @@ router.put("/:postId", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.delete("/:postId", authMiddleware, async (req, res, next) => {
+  try {
+    await Post.destroy({
+      where: {
+        id: parseInt(req.params.postId),
+        userId: req.user.dataValues["id"],
+      },
+    });
+    res
+      .status(200)
+      .send({ message: `Deleted post with id:${req.params.postId}` });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:postId", authMiddleware, async (req, res, next) => {
+  if (admin === false) {
+    return res
+      .status(403)
+      .send({ message: "You are not authorized to delete this post" });
+  }
+  try {
+    await Post.destroy({
+      where: {
+        id: parseInt(req.params.postId),
+      },
+    });
+    res
+      .status(200)
+      .send({ message: `Deleted post with id:${req.params.postId}` });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

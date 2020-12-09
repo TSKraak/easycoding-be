@@ -5,17 +5,17 @@ const { user: User, answer: Answer } = require("../models");
 const router = new Router();
 
 router.post("/", authMiddleware, async (req, res, next) => {
-  const { content, postId } = req.body;
+  const { content, commentId } = req.body;
   if (!content) {
     return res.status(400).send({ message: "Please provide a content" });
   }
-  if (!postId) {
-    return res.status(400).send({ message: "Post does not exist" });
+  if (!commentId) {
+    return res.status(400).send({ message: "Comment does not exist" });
   }
   try {
     const newAnswer = await Answer.create({
       content,
-      postId,
+      commentId,
       userId: req.user.dataValues["id"],
     });
     const returnAnswer = await Answer.findByPk(newAnswer.id, {

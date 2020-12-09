@@ -91,7 +91,7 @@ router.put("/:postId", authMiddleware, async (req, res, next) => {
     );
     const assignedPictures = await Picture.update(
       {
-        postId: newPost.id,
+        postId: parseInt(req.params.postId),
       },
       { where: { id: [...req.body.picturesIds] } }
     );
@@ -136,6 +136,7 @@ router.delete("/:postId", authMiddleware, async (req, res, next) => {
         id: parseInt(req.params.postId),
       },
     });
+    await Picture.destroy({ where: { postId: parseInt(req.params.postId) } });
     res
       .status(200)
       .send({ message: `Deleted post with id:${req.params.postId}` });

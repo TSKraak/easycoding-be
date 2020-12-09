@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const authMiddleware = require("../auth/middleware");
-const { comment: Comment } = require("../models");
+const { comment: Comment, user: User, answer: Answer } = require("../models");
 
 const router = new Router();
 
@@ -17,6 +17,12 @@ router.post("/", authMiddleware, async (req, res, next) => {
       content,
       postId,
       userId: req.user.dataValues["id"],
+    });
+    const returnComment = await Comment.findByPk(newComment.id, {
+      include: [
+        { model: User, attributes: { exclude: ["password"] } },
+        { model: Answer },
+      ],
     });
     res.status(200).send(newComment);
   } catch (error) {

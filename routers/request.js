@@ -68,4 +68,90 @@ router.post("/", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.put("/:requestId", authMiddleware, async (req, res, next) => {
+  const { title, content } = req.body;
+  if (!title || !content) {
+    return res
+      .status(400)
+      .send({ message: "Please provide a title and content" });
+  }
+  try {
+    const updatedRequest = await Request.update(
+      {
+        title,
+        content,
+      },
+      { where: { id: parseInt(req.params.requestId) } }
+    );
+    const returnRequest = await Request.findByPk(
+      parseInt(req.params.requestId),
+      {
+        include: [
+          {
+            model: Comment,
+            order: [["createdAt", "DESC"]],
+            include: [
+              {
+                model: Answer,
+                order: [["createdAt", "DESC"]],
+                include: [
+                  {
+                    model: User,
+                    attributes: { exclude: ["password"] },
+                  },
+                ],
+              },
+              {
+                model: User,
+                attributes: { exclude: ["password"] },
+              },
+            ],
+          },
+          { model: User, attributes: { exclude: ["password"] } },
+        ],
+      }
+    );
+    res.status(200).send(returnRequest);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:requestId", authMiddleware, async (req, res, next) => {
+  try {
+    await Request.destroy({
+      where: {
+        id: parseInt(req.params.requestId),
+        userId: req.user.dataValues["id"],
+      },
+    });
+    res
+      .status(200)
+      .send({ message: `Deleted request with id:${req.params.requestId}` });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/admin/:requestId", authMiddleware, async (req, res, next) => {
+  const admin = req.user.dataValues.isAdmin;
+  if (admin === false) {
+    return res
+      .status(403)
+      .send({ message: "You are not authorized to delete this request" });
+  }
+  try {
+    await Request.destroy({
+      where: {
+        id: parseInt(req.params.requestId),
+      },
+    });
+    res
+      .status(200)
+      .send({ message: `Deleted request with id:${req.params.requestId}` });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

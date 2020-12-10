@@ -40,10 +40,7 @@ router.put("/:answerId", authMiddleware, async (req, res, next) => {
       { where: { id: parseInt(req.params.answerId) } }
     );
     const returnAnswer = await Answer.findByPk(parseInt(req.params.answerId), {
-      include: [
-        { model: User, attributes: { exclude: ["password"] } },
-        { model: Answer },
-      ],
+      include: [{ model: User, attributes: { exclude: ["password"] } }],
     });
     res.status(200).send(returnAnswer);
   } catch (error) {

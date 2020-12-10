@@ -9,13 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       request.belongsTo(models.user);
+      request.hasMany(models.comment);
       // define association here
     }
   }
   request.init(
     {
       title: { type: DataTypes.STRING, allowNull: false },
-      content: { type: DataTypes.STRING, allowNull: false },
+      content: { type: DataTypes.TEXT, allowNull: false },
+      userId: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

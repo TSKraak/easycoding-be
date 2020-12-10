@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      post.hasMany(models.comments);
+      post.hasMany(models.comment);
+      post.hasMany(models.picture);
       post.belongsToMany(models.user, {
         through: "favourites",
         foreignKey: "postId",
@@ -24,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
   post.init(
     {
       title: { type: DataTypes.STRING, allowNull: false },
-      content: { type: DataTypes.STRING, allowNull: false },
+      content: { type: DataTypes.TEXT, allowNull: false },
+      userId: { type: DataTypes.INTEGER, allowNull: false },
     },
     {
       sequelize,

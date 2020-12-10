@@ -58,4 +58,24 @@ router.put("/block/:id", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.put("/admin/:id", authMiddleware, async (req, res, next) => {
+  const admin = req.user.dataValues.isAdmin;
+  try {
+    if (admin === false) {
+      return res
+        .status(403)
+        .send({ message: "You are not authorized to block users" });
+    }
+    const user = await User.findByPk(parseInt(req.params.id));
+    await user.update({
+      isAdmin: !user.isAdmin ? true : false,
+    });
+    res.status(200).json({
+      user,
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = router;

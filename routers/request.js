@@ -12,12 +12,15 @@ const router = new Router();
 router.get("/", async (req, res, next) => {
   try {
     const response = await Request.findAll({
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: Comment,
+          order: [["createdAt", "DESC"]],
           include: [
             {
               model: Answer,
+              order: [["createdAt", "DESC"]],
               include: [
                 {
                   model: User,

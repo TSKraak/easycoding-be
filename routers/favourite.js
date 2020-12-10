@@ -19,12 +19,15 @@ router.get("/", authMiddleware, async (req, res, next) => {
         {
           model: Post,
           as: "favourite",
+          order: [["createdAt", "DESC"]],
           include: [
             {
               model: Comment,
+              order: [["createdAt", "DESC"]],
               include: [
                 {
                   model: Answer,
+                  order: [["createdAt", "DESC"]],
                   include: [
                     {
                       model: User,

@@ -12,7 +12,10 @@ router.post("/", authMiddleware, async (req, res, next) => {
         .status(403)
         .send({ message: "You are not authorized to see all users" });
     }
-    const users = await User.findAll({ attributes: { exclude: ["password"] } });
+    const users = await User.findAll({
+      attributes: { exclude: ["password"] },
+      order: [["name", "ASC"]],
+    });
     res.status(200).json({
       users,
       message: "Admin Found. You are authorized to see all users",

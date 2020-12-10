@@ -58,11 +58,9 @@ npm start
 | GET | '/favourite' | Gets all users with comments and answers from author relation | none | yes |
 | POST | '/favourite' | Sets new favourite | postId | yes |
 | DELETE | '/favourite/:postId' | Deletes a favourite | postId | yes |
-| DELETE | '/favourite/:postId' | Deletes a favourite | postId | yes |
 | GET | '/picture/:postId' | Gets a picture | postId | yes |
 | POST | '/picture/' | Adds a picture | name, picture | yes |
 | PUT | '/picture/:postId' | Updates a picture | name, picture, postId | yes |
-| DELETE | '/picture/:id' | Deletes a picture | id (of the picture) | yes |
 | DELETE | '/picture/:id' | Deletes a picture | id (of the picture) | yes |
 | GET | '/posts' | Gets all posts | none | no |
 | POST | '/posts' | Adds a post | title, content | yes |

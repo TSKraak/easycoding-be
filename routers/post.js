@@ -85,20 +85,22 @@ router.put("/:postId", authMiddleware, async (req, res, next) => {
       .send({ message: "Please provide a title and content" });
   }
   try {
-    const updatedPost = await Post.update(
+    await Post.update(
       {
         title,
         content,
       },
       { where: { id: parseInt(req.params.postId) } }
     );
-    const assignedPictures = await Picture.update(
+
+    await Picture.update(
       {
         postId: parseInt(req.params.postId),
       },
       { where: { id: [...req.body.picturesIds] } }
     );
-    const returnPost = await updatedPost.findByPk(newPost.id, {
+
+    const returnPost = await Post.findByPk(req.params.postId, {
       include: [
         {
           model: Comment,

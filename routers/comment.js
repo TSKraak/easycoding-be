@@ -42,4 +42,68 @@ router.post("/", authMiddleware, async (req, res, next) => {
   }
 });
 
+router.put("/:commentId", authMiddleware, async (req, res, next) => {
+  const { content } = req.body;
+  if (!content) {
+    return res.status(400).send({ message: "Please provide a content" });
+  }
+  try {
+    const updatedComment = await Comment.update(
+      {
+        content,
+      },
+      { where: { id: parseInt(req.params.commentId) } }
+    );
+    const returnComment = await Comment.findByPk(
+      parseInt(req.params.commentId),
+      {
+        include: [
+          { model: User, attributes: { exclude: ["password"] } },
+          { model: Answer },
+        ],
+      }
+    );
+    res.status(200).send(returnComment);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/:commentId", authMiddleware, async (req, res, next) => {
+  try {
+    await Comment.destroy({
+      where: {
+        id: parseInt(req.params.commentId),
+        userId: req.user.dataValues["id"],
+      },
+    });
+    res
+      .status(200)
+      .send({ message: `Deleted comment with id:${req.params.commentId}` });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/admin/:commentId", authMiddleware, async (req, res, next) => {
+  const admin = req.user.dataValues.isAdmin;
+  if (admin === false) {
+    return res
+      .status(403)
+      .send({ message: "You are not authorized to delete this comment" });
+  }
+  try {
+    await Comment.destroy({
+      where: {
+        id: parseInt(req.params.commentId),
+      },
+    });
+    res
+      .status(200)
+      .send({ message: `Deleted comment with id:${req.params.commentId}` });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

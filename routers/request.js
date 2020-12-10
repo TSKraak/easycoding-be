@@ -87,7 +87,26 @@ router.put("/:requestId", authMiddleware, async (req, res, next) => {
       parseInt(req.params.requestId),
       {
         include: [
-          { model: Comment, include: [{ model: Answer }] },
+          {
+            model: Comment,
+            order: [["createdAt", "DESC"]],
+            include: [
+              {
+                model: Answer,
+                order: [["createdAt", "DESC"]],
+                include: [
+                  {
+                    model: User,
+                    attributes: { exclude: ["password"] },
+                  },
+                ],
+              },
+              {
+                model: User,
+                attributes: { exclude: ["password"] },
+              },
+            ],
+          },
           { model: User, attributes: { exclude: ["password"] } },
         ],
       }

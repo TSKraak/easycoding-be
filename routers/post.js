@@ -100,7 +100,26 @@ router.put("/:postId", authMiddleware, async (req, res, next) => {
     );
     const returnPost = await updatedPost.findByPk(newPost.id, {
       include: [
-        { model: Comment, include: [{ model: Answer }] },
+        {
+          model: Comment,
+          order: [["createdAt", "DESC"]],
+          include: [
+            {
+              model: Answer,
+              order: [["createdAt", "DESC"]],
+              include: [
+                {
+                  model: User,
+                  attributes: { exclude: ["password"] },
+                },
+              ],
+            },
+            {
+              model: User,
+              attributes: { exclude: ["password"] },
+            },
+          ],
+        },
         { model: User, as: "author", attributes: { exclude: ["password"] } },
         { model: Picture },
       ],

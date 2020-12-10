@@ -119,6 +119,7 @@ router.delete("/:postId", authMiddleware, async (req, res, next) => {
         userId: req.user.dataValues["id"],
       },
     });
+    await Picture.destroy({ where: { postId: parseInt(req.params.postId) } });
     res
       .status(200)
       .send({ message: `Deleted post with id:${req.params.postId}` });

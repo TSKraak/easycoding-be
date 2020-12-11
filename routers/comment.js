@@ -85,6 +85,13 @@ router.delete("/:commentId", authMiddleware, async (req, res, next) => {
         userId: req.user.dataValues["id"],
       },
     });
+
+    await Answer.destroy({
+      where: {
+        commentId: null,
+      },
+    });
+
     res
       .status(200)
       .send({ message: `Deleted comment with id:${req.params.commentId}` });
@@ -106,6 +113,13 @@ router.delete("/admin/:commentId", authMiddleware, async (req, res, next) => {
         id: parseInt(req.params.commentId),
       },
     });
+
+    await Answer.destroy({
+      where: {
+        commentId: null,
+      },
+    });
+
     res
       .status(200)
       .send({ message: `Deleted comment with id:${req.params.commentId}` });

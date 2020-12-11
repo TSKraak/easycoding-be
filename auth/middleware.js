@@ -24,14 +24,13 @@ async function auth(req, res, next) {
 
     return next();
   } catch (error) {
-
     console.log("ERROR IN AUTH MIDDLEWARE", error);
 
     switch (error.name) {
       case "TokenExpiredError":
         return res
           .status(401)
-          .send({ error: error.name, message: error.message });
+          .send({ error: error.name, message: "Your session has expired" });
 
       case "JsonWebTokenError":
         return res

@@ -59,7 +59,15 @@ router.put("/:commentId", authMiddleware, async (req, res, next) => {
       {
         include: [
           { model: User, attributes: { exclude: ["password"] } },
-          { model: Answer },
+          {
+            model: Answer,
+            include: [
+              {
+                model: User,
+                attributes: { exclude: ["password"] },
+              },
+            ],
+          },
         ],
       }
     );

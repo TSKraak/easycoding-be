@@ -2,7 +2,7 @@
 
 This server is made to be connected with the [client of Easycoding](https://github.com/TSKraak/easycoding-fe) and is deployed with [Heroku](https://dashboard.heroku.com/apps).
 
-## Functionalities and Technology
+## Functionalities and Technologies
 
 ### Functionalities
 

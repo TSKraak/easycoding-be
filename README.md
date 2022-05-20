@@ -1,6 +1,7 @@
 # Easycoding-Server
 
 This server is made to be connected with the [client of Easycoding](https://github.com/TSKraak/easycoding-fe) and is deployed with [Heroku](https://dashboard.heroku.com/apps).
+This project was built from scratch in 1 week.
 
 ## Functionalities and Technologies
 
